@@ -47,6 +47,48 @@
             box-shadow: 0 25px 45px rgba(139, 92, 246, 0.15), 
                         0 8px 32px rgba(0, 0, 0, 0.12);
             position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .main-lock-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .main-lock-icon::after {
+            content: '🔐';
+        }
+
+        .main-title {
+            color: #4a3728;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .main-subtitle {
+            color: rgba(74, 55, 40, 0.7);
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .content-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
@@ -74,22 +116,21 @@
             flex-direction: column;
         }
 
-        .header {
+        .section-header {
             text-align: left;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        .lock-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 0 20px 0;
-            background: linear-gradient(135deg, #8b5cf6, #a855f7);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            position: relative;
+        .section-title {
+            color: #4a3728;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            color: rgba(74, 55, 40, 0.7);
+            font-size: 14px;
         }
 
         .info-card {
@@ -434,107 +475,124 @@
         }
 
         @media (max-width: 1000px) {
-            .container {
+            .content-wrapper {
                 grid-template-columns: 1fr;
                 gap: 40px;
+            }
+            
+            .container {
                 padding: 40px 30px;
                 max-width: 500px;
             }
             
-            .header {
-                text-align: center;
+            .main-lock-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
             }
 
-            .lock-icon {
-                margin: 0 auto 20px;
+            .main-title {
+                font-size: 28px;
+            }
+
+            .main-subtitle {
+                font-size: 16px;
             }
             
             .tips-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .title {
-                font-size: 24px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="left-section">
-            <div class="header">
-                <div class="lock-icon"></div>
-                <h1 class="title">Modifier votre mot de passe</h1>
-                <p class="subtitle">Sécurisez votre compte avec un nouveau mot de passe</p>
-            </div>
-
-            <div class="info-card">
-                <h3>🛡️ Sécurité Renforcée</h3>
-                <p>Votre sécurité est notre priorité absolue. Un mot de passe fort protège vos données personnelles contre les intrusions malveillantes.</p>
-                <ul class="features-list">
-                    <li>Chiffrement de bout en bout</li>
-                    <li>Protection contre les cyberattaques</li>
-                    <li>Conformité aux standards RGPD</li>
-                    <li>Sauvegarde sécurisée de vos données</li>
-                </ul>
-            </div>
+        <div class="main-header">
+            <div class="main-lock-icon"></div>
+            <h1 class="main-title">Modifier votre mot de passe</h1>
+            <p class="main-subtitle">Sécurisez votre compte avec un nouveau mot de passe</p>
         </div>
 
-        <div class="right-section">
-            <form id="passwordForm">
-                <div class="form-group">
-                    <label class="label" for="email">Adresse email *</label>
-                    <div class="input-container">
-                        <input type="email" id="email" class="input" required>
-                    </div>
+        <div class="content-wrapper">
+            <div class="left-section">
+                <div class="section-header">
+                    <h2 class="section-title">Pourquoi changer votre mot de passe ?</h2>
+                    <p class="section-subtitle">Protégez vos données avec une sécurité renforcée</p>
                 </div>
 
-                <div class="form-group">
-                    <label class="label" for="currentPassword">Mot de passe actuel *</label>
-                    <input type="password" id="currentPassword" class="input" 
-                           placeholder="Entrez votre mot de passe actuel" required>
+                <div class="info-card">
+                    <h3>🛡️ Sécurité Renforcée</h3>
+                    <p>Votre sécurité est notre priorité absolue. Un mot de passe fort protège vos données personnelles contre les intrusions malveillantes.</p>
+                    <ul class="features-list">
+                        <li>Chiffrement de bout en bout</li>
+                        <li>Protection contre les cyberattaques</li>
+                        <li>Conformité aux standards RGPD</li>
+                        <li>Sauvegarde sécurisée de vos données</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="section-header">
+                    <h2 class="section-title">Informations de connexion</h2>
+                    <p class="section-subtitle">Remplissez tous les champs requis</p>
                 </div>
 
-                <div class="form-group">
-                    <label class="label" for="newPassword">Nouveau mot de passe *</label>
-                    
-                    <div class="security-tips">
-                        <h4>🛡️ Critères de sécurité</h4>
-                        <div class="tips-grid">
-                            <div class="tip-item">• 8 caractères minimum</div>
-                            <div class="tip-item">• Lettres majuscules</div>
-                            <div class="tip-item">• Lettres minuscules</div>
-                            <div class="tip-item">• Au moins un chiffre</div>
-                            <div class="tip-item">• Caractères spéciaux</div>
-                            <div class="tip-item">• Éviter mots courants</div>
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label class="label" for="email">Adresse email *</label>
+                        <div class="input-container">
+                            <input type="email" id="email" class="input" required>
                         </div>
                     </div>
 
-                    <input type="password" id="newPassword" class="input" 
-                           placeholder="Créez un mot de passe sécurisé" required>
-
-                    <div class="password-strength">
-                        <div class="strength-bars">
-                            <div class="strength-bar" id="bar1"></div>
-                            <div class="strength-bar" id="bar2"></div>
-                            <div class="strength-bar" id="bar3"></div>
-                            <div class="strength-bar" id="bar4"></div>
-                        </div>
-                        <div class="strength-text" id="strengthText">Entrez votre mot de passe</div>
+                    <div class="form-group">
+                        <label class="label" for="currentPassword">Mot de passe actuel *</label>
+                        <input type="password" id="currentPassword" class="input" 
+                               placeholder="Entrez votre mot de passe actuel" required>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="label" for="confirmPassword">Confirmer le mot de passe *</label>
-                    <input type="password" id="confirmPassword" class="input" 
-                           placeholder="Confirmez votre nouveau mot de passe" required>
-                    <div class="match-status" id="matchStatus"></div>
-                </div>
+                    <div class="form-group">
+                        <label class="label" for="newPassword">Nouveau mot de passe *</label>
+                        
+                        <div class="security-tips">
+                            <h4>🛡️ Critères de sécurité</h4>
+                            <div class="tips-grid">
+                                <div class="tip-item">• 8 caractères minimum</div>
+                                <div class="tip-item">• Lettres majuscules</div>
+                                <div class="tip-item">• Lettres minuscules</div>
+                                <div class="tip-item">• Au moins un chiffre</div>
+                                <div class="tip-item">• Caractères spéciaux</div>
+                                <div class="tip-item">• Éviter mots courants</div>
+                            </div>
+                        </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    Mettre à jour le mot de passe
-                </button>
-            </form>
+                        <input type="password" id="newPassword" class="input" 
+                               placeholder="Créez un mot de passe sécurisé" required>
+
+                        <div class="password-strength">
+                            <div class="strength-bars">
+                                <div class="strength-bar" id="bar1"></div>
+                                <div class="strength-bar" id="bar2"></div>
+                                <div class="strength-bar" id="bar3"></div>
+                                <div class="strength-bar" id="bar4"></div>
+                            </div>
+                            <div class="strength-text" id="strengthText">Entrez votre mot de passe</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label" for="confirmPassword">Confirmer le mot de passe *</label>
+                        <input type="password" id="confirmPassword" class="input" 
+                               placeholder="Confirmez votre nouveau mot de passe" required>
+                        <div class="match-status" id="matchStatus"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Mettre à jour le mot de passe
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
