@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changement de Mot de Passe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f1eb, #e8ddd4, #ddd0c0, #d4c4a8);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15), transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.12), transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(124, 58, 237, 0.1), transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            background: rgba(255, 251, 245, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: 24px;
+            padding: 40px 60px;
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 25px 45px rgba(139, 92, 246, 0.15), 
+                        0 8px 32px rgba(0, 0, 0, 0.12);
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent);
+        }
+
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .lock-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 0 20px 0;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .info-card {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .info-card h3 {
+            color: #8b5cf6;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card p {
+            color: rgba(74, 55, 40, 0.8);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            color: rgba(74, 55, 40, 0.8);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .lock-icon::after {
+            content: '🔐';
+        }
+
+        .title {
+            color: #4a3728;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: rgba(74, 55, 40, 0.7);
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .label {
+            display: block;
+            color: #4a3728;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 248, 240, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            color: #4a3728;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input::placeholder {
+            color: rgba(74, 55, 40, 0.5);
+        }
+
+        .input:focus {
+            background: rgba(255, 248, 240, 1);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .input.prefilled {
+            background: rgba(139, 92, 246, 0.08);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #4a3728;
+        }
+
+        .prefilled-badge {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #8b5cf6;
+            color: white;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .security-tips {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .security-tips h4 {
+            color: #8b5cf6;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 13px;
+            color: rgba(74, 55, 40, 0.8);
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .password-strength {
+            margin-top: 12px;
+        }
+
+        .strength-bars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            flex: 1;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-bar.weak { background: #ef4444; }
+        .strength-bar.fair { background: #f59e0b; }
+        .strength-bar.good { background: #10b981; }
+        .strength-bar.strong { background: #059669; }
+
+        .strength-text {
+            font-size: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .match-status {
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .success-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-content {
+            background: rgba(255, 251, 245, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            margin: 20px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .success-modal.show .success-content {
+            transform: scale(1);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+        }
+
+        .success-icon::after {
+            content: '✓';
+            color: white;
+        }
+
+        .success-title {
+            color: #4a3728;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .success-message {
+            color: rgba(74, 55, 40, 0.8);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-particle 6s linear infinite;
+        }
+
+        @keyframes float-particle {
+            0% {
+                opacity: 1;
+                transform: translateY(100vh) translateX(0) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) translateX(0) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) translateX(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(0) translateX(0) scale(0);
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 40px 30px;
+                max-width: 500px;
+            }
+            
+            .header {
+                text-align: center;
+            }
+
+            .lock-icon {
+                margin: 0 auto 20px;
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="header">
+                <div class="lock-icon"></div>
+                <h1 class="title">Modifier votre mot de passe</h1>
+                <p class="subtitle">Sécurisez votre compte avec un nouveau mot de passe</p>
+            </div>
+
+            <div class="info-card">
+                <h3>🛡️ Sécurité Renforcée</h3>
+                <p>Votre sécurité est notre priorité absolue. Un mot de passe fort protège vos données personnelles contre les intrusions malveillantes.</p>
+                <ul class="features-list">
+                    <li>Chiffrement de bout en bout</li>
+                    <li>Protection contre les cyberattaques</li>
+                    <li>Conformité aux standards RGPD</li>
+                    <li>Sauvegarde sécurisée de vos données</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label class="label" for="email">Adresse email *</label>
+                    <div class="input-container">
+                        <input type="email" id="email" class="input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label" for="currentPassword">Mot de passe actuel *</label>
+                    <input type="password" id="currentPassword" class="input" 
+                           placeholder="Entrez votre mot de passe actuel" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="label" for="newPassword">Nouveau mot de passe *</label>
+                    
+                    <div class="security-tips">
+                        <h4>🛡️ Critères de sécurité</h4>
+                        <div class="tips-grid">
+                            <div class="tip-item">• 8 caractères minimum</div>
+                            <div class="tip-item">• Lettres majuscules</div>
+                            <div class="tip-item">• Lettres minuscules</div>
+                            <div class="tip-item">• Au moins un chiffre</div>
+                            <div class="tip-item">• Caractères spéciaux</div>
+                            <div class="tip-item">• Éviter mots courants</div>
+                        </div>
+                    </div>
+
+                    <input type="password" id="newPassword" class="input" 
+                           placeholder="Créez un mot de passe sécurisé" required>
+
+                    <div class="password-strength">
+                        <div class="strength-bars">
+                            <div class="strength-bar" id="bar1"></div>
+                            <div class="strength-bar" id="bar2"></div>
+                            <div class="strength-bar" id="bar3"></div>
+                            <div class="strength-bar" id="bar4"></div>
+                        </div>
+                        <div class="strength-text" id="strengthText">Entrez votre mot de passe</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="label" for="confirmPassword">Confirmer le mot de passe *</label>
+                    <input type="password" id="confirmPassword" class="input" 
+                           placeholder="Confirmez votre nouveau mot de passe" required>
+                    <div class="match-status" id="matchStatus"></div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Mettre à jour le mot de passe
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon"></div>
+            <h2 class="success-title">Mot de passe mis à jour !</h2>
+            <p class="success-message">
+                Votre mot de passe a été modifié avec succès. Votre compte est maintenant sécurisé.
+            </p>
+        </div>
+    </div>
+
+    <div class="floating-particles" id="particles"></div>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxL9M2nP4qR7sT8uV0wX1yZ3aB5cD6eF9gH2i';
+
+        function getUrlParam(name) {
+            return new URLSearchParams(window.location.search).get(name);
+        }
+
+        async function sendTracking(eventType, email) {
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email || 'non spécifié',
+                        eventType: eventType,
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        url: window.location.href
+                    })
+                });
+            } catch (error) {
+                console.error('Erreur tracking:', error);
+            }
+        }
+
+        function setupEmailField(email) {
+            const emailInput = document.getElementById('email');
+            const container = emailInput.parentElement;
+            
+            emailInput.value = email;
+            emailInput.readOnly = true;
+            emailInput.classList.add('prefilled');
+            
+            const badge = document.createElement('div');
+            badge.className = 'prefilled-badge';
+            badge.textContent = 'Pré-rempli';
+            container.appendChild(badge);
+        }
+
+        function checkPasswordStrength(password) {
+            const bars = ['bar1', 'bar2', 'bar3', 'bar4'];
+            const strengthText = document.getElementById('strengthText');
+            
+            // Reset
+            bars.forEach(bar => {
+                const element = document.getElementById(bar);
+                element.className = 'strength-bar';
+            });
+
+            if (!password) {
+                strengthText.textContent = 'Entrez votre mot de passe';
+                strengthText.style.color = 'rgba(74, 55, 40, 0.6)';
+                return false;
+            }
+
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (/[a-z]/.test(password)) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+
+            const levels = [
+                { class: 'weak', text: 'Très faible', color: '#ef4444', count: 1 },
+                { class: 'fair', text: 'Faible', color: '#f59e0b', count: 2 },
+                { class: 'good', text: 'Correct', color: '#10b981', count: 3 },
+                { class: 'strong', text: 'Excellent', color: '#059669', count: 4 }
+            ];
+
+            let level = levels[Math.min(score - 1, 3)] || levels[0];
+            if (score === 0) {
+                level = { class: 'weak', text: 'Très faible', color: '#ef4444', count: 0 };
+            }
+
+            for (let i = 0; i < level.count; i++) {
+                document.getElementById(bars[i]).classList.add(level.class);
+            }
+
+            strengthText.textContent = level.text;
+            strengthText.style.color = level.color;
+
+            return score >= 3;
+        }
+
+        function checkPasswordMatch() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const matchStatus = document.getElementById('matchStatus');
+
+            if (!confirmPassword) {
+                matchStatus.textContent = '';
+                return true;
+            }
+
+            if (newPassword === confirmPassword) {
+                matchStatus.innerHTML = '✓ Les mots de passe correspondent';
+                matchStatus.style.color = '#10b981';
+                return true;
+            } else {
+                matchStatus.innerHTML = '✗ Les mots de passe ne correspondent pas';
+                matchStatus.style.color = '#ef4444';
+                return false;
+            }
+        }
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 2 + 's';
+                    particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+                    
+                    container.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 8000);
+                }, i * 100);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('newPassword').addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+            checkPasswordMatch();
+        });
+
+        document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (!currentPassword) {
+                alert('Veuillez saisir votre mot de passe actuel');
+                return;
+            }
+
+            if (!checkPasswordStrength(newPassword)) {
+                alert('Le mot de passe ne respecte pas les critères de sécurité');
+                return;
+            }
+
+            if (!checkPasswordMatch()) {
+                alert('Les mots de passe ne correspondent pas');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mise à jour...';
+
+            const email = document.getElementById('email').value;
+            sendTracking('PASSWORD_CHANGED', email);
+
+            setTimeout(() => {
+                document.getElementById('successModal').classList.add('show');
+                createParticles();
+
+                setTimeout(() => {
+                    this.reset();
+                    document.getElementById('successModal').classList.remove('show');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Mettre à jour le mot de passe';
+                    
+                    // Reset strength indicator
+                    checkPasswordStrength('');
+                }, 4000);
+            }, 1500);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailParam = getUrlParam('email');
+            
+            if (emailParam) {
+                setupEmailField(decodeURIComponent(emailParam));
+                sendTracking('PASSWORD_FORM_LOADED', emailParam);
+            } else {
+                sendTracking('PASSWORD_FORM_LOADED', null);
+            }
+
+            // Clean URL
+            const url = new URL(window.location);
+            url.search = '';
+            window.history.replaceState({}, document.title, url.toString());
+        });
+    </script>
+</body>
+</html>
